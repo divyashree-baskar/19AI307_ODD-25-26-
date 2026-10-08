@@ -2,14 +2,22 @@
 
 ## QUESTION:
 
-
+Write a Java program to read a string from the user, compress it in memory using ByteArrayOutputStream + GZIPOutputStream, and then decompress it back using ByteArrayInputStream + GZIPInputStream.
 ## AIM:
-
+To write a Java program that reads a string from the user, compresses it using GZIP compression, and then decompresses it back to its original form.
 
 ## ALGORITHM :
 1.	Start the program.
 2.	Import the necessary package 'java.util'
-3.	
+3.	Read a string from the user using Scanner.
+4.	Create a ByteArrayOutputStream object to hold compressed data.
+5.	Wrap it with GZIPOutputStream and write the user string into it to perform compression.
+6.	Convert compressed data into a byte array.
+7.	Create a ByteArrayInputStream object using the compressed byte array.
+8.	Wrap it with GZIPInputStream to decompress the content.
+9.	Read decompressed bytes and convert them back into the original string.
+10.	Display original, compressed size, and decompressed results.
+11.	End the program.
 
 
 
@@ -19,14 +27,64 @@
  ```
 /*
 Program to implement a Serialization and Deserialization using Java
-Developed by: 
-RegisterNumber:  
+Developed by: Divyashree B
+RegisterNumber:  212224040081
 */
 ```
 
 ## SOURCE CODE:
 
+```
+import java.io.*;
+import java.util.Scanner;
+import java.util.zip.GZIPOutputStream;
+import java.util.zip.GZIPInputStream;
 
+public class GZIPMemoryExample {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        try {
+            String input = scanner.nextLine();
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            GZIPOutputStream gzipOut = new GZIPOutputStream(baos);
+            gzipOut.write(input.getBytes("UTF-8"));
+            gzipOut.close(); 
+
+            byte[] compressedData = baos.toByteArray();
+            System.out.println("Compressed data (bytes):");
+            for (byte b : compressedData) {
+                System.out.print(b + " ");
+            }
+            System.out.println("\nTotal bytes: " + compressedData.length);
+
+            ByteArrayInputStream bais = new ByteArrayInputStream(compressedData);
+            GZIPInputStream gzipIn = new GZIPInputStream(bais);
+            InputStreamReader reader = new InputStreamReader(gzipIn, "UTF-8");
+            BufferedReader br = new BufferedReader(reader);
+
+            StringBuilder decompressed = new StringBuilder();
+            String line;
+            while ((line = br.readLine()) != null) {
+                decompressed.append(line);
+            }
+
+            System.out.println("\nDecompressed string:");
+            System.out.println(decompressed.toString());
+
+            br.close();
+            gzipIn.close();
+            bais.close();
+
+        } catch (IOException e) {
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            scanner.close();
+        }
+    }
+}
+```
 
 
 
@@ -34,6 +92,9 @@ RegisterNumber:
 
 ## OUTPUT:
 
+<img width="848" height="386" alt="image" src="https://github.com/user-attachments/assets/b550059f-0448-4bd0-85b3-6d924476b24d" />
+
 
 
 ## RESULT:
+Therefore the program has been executed successfully.
